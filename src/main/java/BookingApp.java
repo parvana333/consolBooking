@@ -1,46 +1,54 @@
-import controller.BookingController;
+
 import controller.Flight;
 import controller.FlightController;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class BookingApp {
     public static String createid(){
-        String id=null;
-//should be implemented
+        Random r=new Random();
+        int i=0;
+        String id="";
+        while(i<6){
+            id=id+ r.nextInt(9);
+            i++;
+        }
         return id;
     }
 
-    public static String createcity(){
-        String city=null;
-
-        return city;
-    }
     public static String createdate(){
-        String date=null;
+        Random r=new Random();
+        LocalDate l=LocalDate.now();
+        return l.plusDays(r.nextInt(10)).toString();
 
-        return date;
     }
     public static String createtime(){
-        String time=null;
-
-        return time;
+        Random r=new Random();
+        LocalTime l=LocalTime.now();
+        return l.plusHours(r.nextInt(24)).toString();
     }
     public static int seats(){
-        int s=0;
-
-        return s;
+        Random r=new Random();
+        return r.nextInt(100);
     }
 
-    public static void main(String[] args) {
-        FlightController flight=new FlightController();
+    public static void main(String[] args) throws IOException {
+        FlightController flightcontroller=new FlightController();
+        List<String> l=new ArrayList<>(Arrays.asList("Budapest","Istanbul","Baku","Buxarest","Ankara"));
         int i=0;
-        while(i<20){
-            Flight f=new Flight(createid(),createcity(),createdate(),createtime(),seats());
-            flight.store(f);
-
+        while(i<5){
+            Flight f=new Flight(createid(),l.get(i),createdate(),createtime(),seats());
+            flightcontroller.store(f);
+            i++;
         }
+        flightcontroller.close();
+
 
     }
-
-
 
 }
